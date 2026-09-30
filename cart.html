@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CartShare - Shared Cart</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/print.css" />
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-dark bg-primary no-print fixed-top">
+    <div class="container-fluid">
+      <span class="navbar-brand fw-bold">CartShare</span>
+      <div class="d-flex align-items-center gap-2">
+        <span class="text-white small">
+          Room: <strong id="navRoomCode"></strong>
+        </span>
+        <span class="badge bg-light text-primary" id="navUserName"></span>
+        <button class="btn btn-sm btn-outline-light" onclick="leaveRoom()">
+          Leave
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+
+    <div class="card shadow-sm mb-3 no-print">
+      <div class="card-body">
+        <div class="d-flex justify-content-between mb-1">
+          <span class="fw-semibold">Free Delivery Progress</span>
+          <span id="progressText" class="small text-muted"></span>
+        </div>
+        <div class="progress" style="height: 20px">
+          <div
+            id="progressBar"
+            class="progress-bar bg-success"
+            role="progressbar"
+            style="width: 0%"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-lg-8">
+
+        <div class="card shadow-sm mb-3 no-print">
+          <div class="card-body">
+            <h5 class="card-title">Add Item</h5>
+            <div class="row g-2">
+              <div class="col-12 col-md-5">
+                <input
+                  type="text"
+                  id="itemName"
+                  class="form-control"
+                  placeholder="Item name"
+                />
+              </div>
+              <div class="col-6 col-md-3">
+                <input
+                  type="number"
+                  id="itemPrice"
+                  class="form-control"
+                  placeholder="Price"
+                  min="1"
+                />
+              </div>
+              <div class="col-6 col-md-2">
+                <input
+                  type="number"
+                  id="itemQty"
+                  class="form-control"
+                  value="1"
+                  min="1"
+                />
+              </div>
+              <div class="col-12 col-md-2">
+                <button class="btn btn-primary w-100" onclick="addItem()">
+                  Add
+                </button>
+              </div>
+            </div>
+            <p id="itemError" class="text-danger small mt-2 mb-0"></p>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title mb-0">Shared Cart</h5>
+              <span class="badge bg-primary" id="itemCount">0 items</span>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>Item</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-end">Subtotal</th>
+                    <th>Added By</th>
+                    <th class="text-center no-print">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cartTableBody"></tbody>
+                <tfoot>
+                  <tr class="fw-bold">
+                    <td colspan="3" class="text-end">Grand Total:</td>
+                    <td class="text-end" id="grandTotal">₹0</td>
+                    <td colspan="2"></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div id="emptyCart" class="text-center py-4">
+              <p class="text-muted mt-2">No items yet. Add something!</p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="btn btn-success w-100 mt-3 no-print"
+          onclick="printReceipt()"
+        >
+          Print Receipt
+        </button>
+
+      </div>
+
+      <div class="col-lg-4">
+
+        <div class="card shadow-sm mb-3 no-print">
+          <div class="card-body">
+            <h6 class="card-title">Members</h6>
+            <ul id="memberList" class="list-unstyled mb-0 small"></ul>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h6 class="card-title">Activity Log</h6>
+            <ul
+              id="activityList"
+              class="list-unstyled small mb-0"
+              style="max-height: 400px; overflow-y: auto"
+            ></ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="printReceipt" class="print-only">
+    <h2 class="text-center">CartShare Receipt</h2>
+    <p class="text-center small">
+      Room: <strong id="printRoomCode"></strong> |
+      Date: <span id="printDate"></span>
+    </p>
+    <hr />
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Subtotal</th>
+          <th>Added By</th>
+        </tr>
+      </thead>
+      <tbody id="printTableBody"></tbody>
+      <tfoot>
+        <tr class="fw-bold">
+          <td colspan="3" class="text-end">Grand Total:</td>
+          <td colspan="2" id="printGrandTotal"></td>
+        </tr>
+      </tfoot>
+    </table>
+    <h5 class="mt-4">Split Summary</h5>
+    <ul id="printSplitList"></ul>
+    <p class="text-center small mt-4">
+      Generated by CartShare
+    </p>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/room.js"></script>
+  <script src="js/activity.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

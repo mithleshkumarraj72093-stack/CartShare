@@ -1,0 +1,43 @@
+@media print {
+  .no-print,
+  nav,
+  button,
+  .btn {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  body {
+    background: #fff !important;
+    font-size: 12pt;
+    padding-top: 0 !important;
+  }
+
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #printReceipt {
+    page-break-after: avoid;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table th,
+  table td {
+    border: 1px solid #000 !important;
+    padding: 6px !important;
+  }
+
+  h2,
+  h5 {
+    margin-top: 10px;
+  }
+}
