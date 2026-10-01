@@ -50,7 +50,7 @@ How to Run the Application Locally
 
 Live Deployment
 
-Live URL: https://your-project-name.vercel.app
+Live URL: https://cartshare10.netlify.app/cart.html
 
 
 How to Test Collaboration
